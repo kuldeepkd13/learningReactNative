@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+} from 'react-native';
 import axios from 'axios';
 
 const API_KEY = '3a1115e4';
@@ -34,75 +43,45 @@ const App = () => {
     }
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      padding: 20,
-      flex: 1,
-      backgroundColor: '#f0f0f0',
-    },
-    searchContainer: {
-      marginBottom: 10,
-      padding: 10,
-      borderColor: 'gray',
-      borderWidth: 1,
-      backgroundColor: '#ffffff',
-    },
-    movieContainer: {
-      flexDirection: 'row',
-      marginBottom: 10,
-      backgroundColor: '#ffffff',
-      borderRadius: 8,
-      overflow: 'hidden',
-    },
-    moviePoster: {
-      width: 100,
-      height: 150,
-    },
-    movieDetails: {
-      flex: 1,
-      padding: 10,
-    },
-    movieTitle: {
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    movieButton: {
-      marginTop: 5,
-    },
-    movieDetailsContainer: {
-      marginTop: 20,
-      backgroundColor: '#ffffff',
-      padding: 20,
-      borderRadius: 8,
-    },
-    movieDetailsImage: {
-      width: 200,
-      height: 300,
-      marginBottom: 10,
-      borderRadius: 8,
-    },
-    movieDetailsText: {
-      fontSize: 16,
-      marginBottom: 5,
-    },
-  });
+  const renderMovieItem = (movie) => (
+    <TouchableOpacity
+      key={movie.imdbID}
+      style={styles.movieContainer}
+      onPress={() => getMovieDetails(movie.imdbID)}
+    >
+      <Image source={{ uri: movie.Poster }} style={styles.moviePoster} />
+      <View style={styles.movieDetails}>
+        <Text style={styles.movieTitle}>{movie.Title}</Text>
+        <TouchableOpacity
+          style={styles.viewDetailsButton}
+          onPress={() => getMovieDetails(movie.imdbID)}
+        >
+          <Text style={styles.buttonText}>View Details</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Movie Search</Text>
+      </View>
       <View style={styles.searchContainer}>
         <TextInput
           placeholder="Search for movies..."
           value={searchQuery}
           onChangeText={setSearchQuery}
-          style={{ marginBottom: 10, padding: 10, borderColor: 'gray', borderWidth: 1 }}
+          style={styles.searchInput}
         />
-        <Button title="Search" onPress={searchMovies} />
+        <TouchableOpacity style={styles.searchButton} onPress={searchMovies}>
+          <Text style={styles.buttonText}>Search</Text>
+        </TouchableOpacity>
       </View>
 
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      {loading && <ActivityIndicator size="large" color="#007AFF" />}
 
       {selectedMovie ? (
-        
         <View style={styles.movieDetailsContainer}>
           <Image source={{ uri: selectedMovie.Poster }} style={styles.movieDetailsImage} />
           <Text style={styles.movieDetailsText}>Title: {selectedMovie.Title}</Text>
@@ -113,27 +92,113 @@ const App = () => {
           <Text style={styles.movieDetailsText}>Country: {selectedMovie.Country}</Text>
           <Text style={styles.movieDetailsText}>Language: {selectedMovie.Language}</Text>
           <Text style={styles.movieDetailsText}>Rating: {selectedMovie.imdbRating}</Text>
-          <Button title="Back to Results" onPress={() => setSelectedMovie(null)} />
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => setSelectedMovie(null)}
+          >
+            <Text style={styles.buttonText}>Back to Results</Text>
+          </TouchableOpacity>
         </View>
       ) : (
-        <ScrollView>
-          {movies.map(movie => (
-            <View key={movie.imdbID} style={styles.movieContainer}>
-              <Image source={{ uri: movie.Poster }} style={styles.moviePoster} />
-              <View style={styles.movieDetails}>
-                <Text style={styles.movieTitle}>{movie.Title}</Text>
-                <Button
-                  title="View Details"
-                  onPress={() => getMovieDetails(movie.imdbID)}
-                  style={styles.movieButton}
-                />
-              </View>
-            </View>
-          ))}
+        <ScrollView style={styles.movieList}>
+          {movies.map((movie) => renderMovieItem(movie))}
         </ScrollView>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+  },
+  header: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 15,
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#ffffff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 20,
+  },
+  searchInput: {
+    flex: 1,
+    marginRight: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+  },
+  searchButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: '#007AFF',
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  movieList: {
+    paddingHorizontal: 20,
+  },
+  movieContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    overflow: 'hidden',
+    elevation: 2,
+  },
+  moviePoster: {
+    width: 100,
+    height: 150,
+  },
+  movieDetails: {
+    flex: 1,
+    padding: 15,
+  },
+  movieTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  viewDetailsButton: {
+    marginTop: 10,
+    backgroundColor: '#007AFF',
+    borderRadius: 4,
+  },
+  movieDetailsContainer: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    padding: 20,
+    borderRadius: 8,
+    elevation: 2,
+  },
+  movieDetailsImage: {
+    width: '100%',
+    height: 300,
+    marginBottom: 15,
+    borderRadius: 8,
+  },
+  movieDetailsText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  backButton: {
+    marginTop: 15,
+    backgroundColor: '#007AFF',
+    borderRadius: 4,
+  },
+});
 
 export default App;
