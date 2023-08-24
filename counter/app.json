@@ -8,6 +8,22 @@
       "expo-router"
     ],
     "name": "counter",
-    "slug": "counter"
+    "slug": "counter",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "4b9f2fe3-3a11-4b3c-bd34-18f8cc3ad837"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/4b9f2fe3-3a11-4b3c-bd34-18f8cc3ad837"
+    },
+    "android": {},
+    "ios": {}
   }
 }
