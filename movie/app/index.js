@@ -79,7 +79,7 @@ const App = () => {
         </TouchableOpacity>
       </View>
 
-      {loading && <ActivityIndicator size="large" color="#007AFF" />}
+      {loading && <ActivityIndicator size="large" color="#FF5733" />}
 
       {selectedMovie ? (
         <View style={styles.movieDetailsContainer}>
@@ -111,15 +111,15 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#F9F9F9',
   },
   header: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FF5733',
     paddingVertical: 15,
     alignItems: 'center',
   },
   headerText: {
-    color: '#ffffff',
+    color: '#FFFFFF',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -134,17 +134,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
+    color: '#333333',
   },
   searchButton: {
     paddingVertical: 10,
     paddingHorizontal: 15,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FF5733',
     borderRadius: 8,
   },
   buttonText: {
-    color: '#ffffff',
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   movieContainer: {
     flexDirection: 'row',
     marginBottom: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
     overflow: 'hidden',
     elevation: 2,
@@ -171,15 +172,16 @@ const styles = StyleSheet.create({
   movieTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#333333',
   },
   viewDetailsButton: {
     marginTop: 10,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FF5733',
     borderRadius: 4,
   },
   movieDetailsContainer: {
     margin: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
     padding: 20,
     borderRadius: 8,
     elevation: 2,
@@ -193,10 +195,11 @@ const styles = StyleSheet.create({
   movieDetailsText: {
     fontSize: 16,
     marginBottom: 8,
+    color: '#555555',
   },
   backButton: {
     marginTop: 15,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FF5733',
     borderRadius: 4,
   },
 });
