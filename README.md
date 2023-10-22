@@ -1,1 +1,1 @@
-# learningReactNativeA
+# learningReactNative
